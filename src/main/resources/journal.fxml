@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="632.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.caldwell.arclight.journal.JournalController">
+   <children>
+      <Button fx:id="managerButton" layoutX="1004.0" layoutY="576.0" mnemonicParsing="false" onAction="#onManagerButton" text="Manager" />
+      <Button fx:id="menuButton" layoutX="921.0" layoutY="576.0" mnemonicParsing="false" onAction="#onMainMenuButton" prefHeight="25.0" prefWidth="64.0" text="Menu" />
+      <Separator layoutX="863.0" layoutY="11.0" orientation="VERTICAL" prefHeight="611.0" prefWidth="0.0" />
+      <ComboBox fx:id="removeChoiceBox" layoutX="875.0" layoutY="14.0" prefHeight="25.0" prefWidth="239.0" />
+      <Button fx:id="removeButton" onAction="#onRemoveButton" layoutX="965.0" layoutY="50.0" mnemonicParsing="false" text="Remove" />
+      <Button fx:id="addButton" onAction="#onAddButton" layoutX="175.0" layoutY="166.0" mnemonicParsing="false" text="Add" />
+      <TextField fx:id="nameField" layoutX="47.0" layoutY="50.0" prefHeight="25.0" prefWidth="293.0" promptText="Name" />
+      <TextField fx:id="colorField" layoutX="47.0" layoutY="88.0" prefHeight="25.0" prefWidth="293.0" promptText="Color" />
+      <TextField fx:id="distanceField" layoutX="47.0" layoutY="126.0" prefHeight="25.0" prefWidth="293.0" promptText="Distance" />
+   </children>
+</AnchorPane>

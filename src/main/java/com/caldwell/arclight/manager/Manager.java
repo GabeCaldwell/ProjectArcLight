@@ -1,19 +1,28 @@
 package com.caldwell.arclight.manager;
-
 import com.caldwell.arclight.bodies.Star;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: Manager.java                                                                 //
+// Description: Main class for manager feature                                        //
+// ********************************************************************************** //
 
 public class Manager implements Serializable {
 
     // fields
     ArrayList<Star> stars;
+    Stack<Star> starStack;
 
     // constructors
     public Manager() {
         this.stars = new ArrayList<>();
+        this.starStack = new Stack<>();
     }
 
     public Manager(ArrayList<Star> stars) {

@@ -1,63 +1,69 @@
 package com.caldwell.arclight.journal;
-import com.caldwell.arclight.bodies.Star;
-import java.io.Serializable;
-import java.util.ArrayList;
+
+import java.io.*;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: Journal.java                                                                 //
+// Description: Main journal class                                                    //
+// ********************************************************************************** //
 
 public class Journal implements Serializable {
 
     // fields
-    private ArrayList<Star> starList;
+    private JournalLinkedList<Page> pages;
 
     // constructors
     public Journal() {
-        this.starList = new ArrayList<>();
+        this.pages = new JournalLinkedList<>();
     }
 
-    // adding stars to star list
-    public void addStar(Star star) {
-        starList.add(star);
+    public JournalLinkedList<Page> getPages() {
+        return this.pages;
     }
 
-    // remove stars from star list
-    public void removeStar(Star star) {
-        starList.remove(star);
+    public void setPages(JournalLinkedList<Page> pages) {
+        this.pages = pages;
     }
 
-/*    // sorting implementations for stars using different variables
-    public void sortStarsByName(ArrayList<Star> starList) {
-
-    }
-
-    public void sortStarsBySize(ArrayList<Star> starList) {
-
-    }
-
-    public void sortStarsByAge(ArrayList<Star> starList) {
-
-    }
-
-    public void sortStarsByTemperature(ArrayList<Star> starList) {
-
-    }
-
-    public static void quickSort(ArrayList<Star> starList) {
-        quickSort(starList,0,starList.size()-1);
-    }
-
-    public static void quickSort(ArrayList<Star> starList, int lowIndex, int highIndex) {
-        if (lowIndex >= highIndex) {
-            return;
+    // output array to file
+    public void writeJournal() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pages.dat"))) {
+            oos.writeObject(this.pages);
+            System.out.println("save success");
         }
-
-
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    *//*public static int partition() {
+    // retrieve array from file
+    public void readJournal() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pages.dat"))) {
+            this.pages = (JournalLinkedList<Page>) ois.readObject();
+            System.out.println("read success");
+        }
+        catch (ClassNotFoundException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-    }*//*
-
-    public static void swap(ArrayList<Star> starList, int index1, int index2) {
-
-    }*/
+    public static class Page implements Serializable {
+        String text;
+        public Page() {
+            this.text = "";
+        }
+        public Page(String text) {
+            this.text = text;
+        }
+        public String getText() {
+            return this.text;
+        }
+        public void setText(String text) {
+            this.text = text;
+        }
+    }
 
 }

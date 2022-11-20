@@ -1,6 +1,13 @@
 package com.caldwell.arclight.bodies;
-
 import java.io.Serializable;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: Star.java                                                                    //
+// Description: Class to create star objects                                          //
+// ********************************************************************************** //
 
 public class Star implements Serializable {
 

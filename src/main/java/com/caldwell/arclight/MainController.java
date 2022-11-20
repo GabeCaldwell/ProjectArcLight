@@ -13,10 +13,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: MainController.java                                                          //
+// Description: Controller for main.fxml                                              //
+// ********************************************************************************** //
 
 public class MainController implements Initializable {
 

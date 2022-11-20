@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -40,12 +41,45 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></RadioButton>
-      <Text layoutX="910.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort By" textAlignment="CENTER">
+      <Text fx:id="sortByText" layoutX="910.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort By" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <Separator layoutX="864.0" layoutY="533.0" prefHeight="0.0" prefWidth="141.0" />
-      <TextArea editable="false" focusTraversable="false" layoutX="737.0" layoutY="46.0" prefHeight="415.0" prefWidth="373.0" />
+      <Separator fx:id="separator" focusTraversable="false" layoutX="864.0" layoutY="533.0" prefHeight="0.0" prefWidth="141.0" />
+      <TextArea fx:id="textArea" editable="false" focusTraversable="false" layoutX="737.0" layoutY="46.0" prefHeight="415.0" prefWidth="373.0" />
+      <Button fx:id="undoButton" focusTraversable="false" layoutX="1046.0" layoutY="14.0" mnemonicParsing="false" onAction="#onUndoButton" prefHeight="25.0" prefWidth="64.0" text="Undo">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="deleteButton" focusTraversable="false" layoutX="810.0" layoutY="467.0" mnemonicParsing="false" onAction="#onDeleteButton" prefHeight="25.0" prefWidth="64.0" text="Delete">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="addButton" focusTraversable="false" layoutX="737.0" layoutY="467.0" mnemonicParsing="false" onAction="#onAddButton" prefHeight="25.0" prefWidth="64.0" text="Add">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <TextField fx:id="nameField" disable="true" focusTraversable="false" layoutX="737.0" layoutY="70.0" opacity="0.0" prefHeight="25.0" prefWidth="373.0" promptText="enter name">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <TextField fx:id="colorField" disable="true" focusTraversable="false" layoutX="737.0" layoutY="119.0" opacity="0.0" prefHeight="25.0" prefWidth="373.0" promptText="enter color">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <TextField fx:id="distanceField" disable="true" focusTraversable="false" layoutX="737.0" layoutY="168.0" opacity="0.0" prefHeight="25.0" prefWidth="373.0" promptText="enter distance">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Button fx:id="confirmButton" disable="true" focusTraversable="false" layoutX="860.0" layoutY="208.0" mnemonicParsing="false" onAction="#onConfirmButton" opacity="0.0" prefHeight="25.0" prefWidth="64.0" text="Confirm">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="cancelButton" disable="true" focusTraversable="false" layoutX="934.0" layoutY="208.0" mnemonicParsing="false" onAction="#onCancelButton" opacity="0.0" prefHeight="25.0" prefWidth="64.0" text="Cancel" />
    </children>
 </AnchorPane>

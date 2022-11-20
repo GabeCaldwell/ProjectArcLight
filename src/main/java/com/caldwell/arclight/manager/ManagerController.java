@@ -10,17 +10,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: ManagerController.java                                                       //
+// Description: Controller for manager.fxml                                           //
+// ********************************************************************************** //
 
 public class ManagerController implements Initializable {
 
@@ -49,8 +56,34 @@ public class ManagerController implements Initializable {
     private RadioButton colorRadioButton;
     @FXML
     private RadioButton distanceRadioButton;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField colorField;
+    @FXML
+    private TextField distanceField;
+    @FXML
+    private Button confirmButton;
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Text sortByText;
+    @FXML
+    private Separator separator;
+    @FXML
+    private TextArea textArea;
 
     ObservableList<Star> starObservableList;
+
+    final File starData = new File("stars.dat");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,7 +96,12 @@ public class ManagerController implements Initializable {
 
         // read the stars from memory
         manager = new Manager();
-        manager.readStars();
+        if (starData.exists()) {
+            manager.readStars();
+        }
+        else if (!starData.exists()) {
+            manager.writeStars();
+        }
 
         // add items to list
         starObservableList = FXCollections.observableArrayList(manager.getStars());
@@ -155,5 +193,119 @@ public class ManagerController implements Initializable {
             starObservableList.addAll(sortedListDistance);
             starTable.setItems(starObservableList);
         }
+    }
+
+    @FXML
+    public void onDeleteButton() {
+        if (starTable.getSelectionModel().getSelectedItem() != null) {
+            System.out.println("deleting: " + starTable.getSelectionModel().getSelectedItem().getName());
+            manager.stars.remove(starTable.getSelectionModel().getSelectedItem());
+            manager.writeStars();
+            manager.starStack.push(starTable.getSelectionModel().getSelectedItem());
+            starObservableList.remove(starTable.getSelectionModel().getSelectedItem());
+            starTable.setItems(starObservableList);
+        }
+    }
+
+    @FXML
+    public void onUndoButton() {
+        if (!manager.starStack.isEmpty()) {
+            Star temp = manager.starStack.pop();
+            manager.stars.add(temp);
+            manager.writeStars();
+            starObservableList.add(temp);
+            if (nameRadioButton.isSelected()) {
+                starTable.setItems(starObservableList);
+                onNameRadioButton();
+            }
+            else if (colorRadioButton.isSelected()) {
+                starTable.setItems(starObservableList);
+                onColorRadioButton();
+            }
+            else if (distanceRadioButton.isSelected()) {
+                starTable.setItems(starObservableList);
+                onDistanceRadioButton();
+            }
+            System.out.println("undoing deletion of: " + temp.getName());
+        }
+    }
+
+    public void onAddButton() {
+        menuButton.setDisable(true);
+        menuButton.setOpacity(0);
+        journalButton.setDisable(true);
+        journalButton.setOpacity(0);
+        undoButton.setDisable(true);
+        undoButton.setOpacity(0);
+        addButton.setDisable(true);
+        addButton.setOpacity(0);
+        deleteButton.setDisable(true);
+        deleteButton.setOpacity(0);
+        sortByText.setOpacity(0);
+        separator.setOpacity(0);
+        nameRadioButton.setDisable(true);
+        nameRadioButton.setOpacity(0);
+        colorRadioButton.setDisable(true);
+        colorRadioButton.setOpacity(0);
+        distanceRadioButton.setDisable(true);
+        distanceRadioButton.setOpacity(0);
+        textArea.setDisable(true);
+        textArea.setOpacity(0);
+        nameField.setDisable(false);
+        nameField.setOpacity(1);
+        colorField.setDisable(false);
+        colorField.setOpacity(1);
+        distanceField.setDisable(false);
+        distanceField.setOpacity(1);
+        confirmButton.setDisable(false);
+        confirmButton.setOpacity(1);
+        cancelButton.setDisable(false);
+        cancelButton.setOpacity(1);
+    }
+
+    public void onConfirmButton() {
+        if (nameField.getText() != null && colorField.getText() != null && distanceField.getText() != null) {
+            if (distanceField.getText().matches(".*[0-9].*")) {
+                Star temp = new Star(nameField.getText(), colorField.getText(), Integer.parseInt(distanceField.getText()));
+                starObservableList.add(temp);
+                starTable.setItems(starObservableList);
+                manager.stars.add(temp);
+                manager.writeStars();
+                onCancelButton();
+            }
+        }
+    }
+
+    public void onCancelButton() {
+        menuButton.setDisable(false);
+        menuButton.setOpacity(1);
+        journalButton.setDisable(false);
+        journalButton.setOpacity(1);
+        undoButton.setDisable(false);
+        undoButton.setOpacity(1);
+        addButton.setDisable(false);
+        addButton.setOpacity(1);
+        deleteButton.setDisable(false);
+        deleteButton.setOpacity(1);
+        sortByText.setOpacity(1);
+        separator.setOpacity(1);
+        nameRadioButton.setDisable(false);
+        nameRadioButton.setOpacity(1);
+        colorRadioButton.setDisable(false);
+        colorRadioButton.setOpacity(1);
+        distanceRadioButton.setDisable(false);
+        distanceRadioButton.setOpacity(1);
+        textArea.setDisable(false);
+        textArea.setOpacity(1);
+        nameField.setDisable(true);
+        nameField.setOpacity(0);
+        colorField.setDisable(true);
+        colorField.setOpacity(0);
+        distanceField.setDisable(true);
+        distanceField.setOpacity(0);
+        confirmButton.setDisable(true);
+        confirmButton.setOpacity(0);
+        cancelButton.setDisable(true);
+        cancelButton.setOpacity(0);
     }
 }

@@ -1,12 +1,18 @@
 package com.caldwell.arclight;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+
+// ********************************************************************************** //
+// Title: Arclight                                                                    //
+// Author: Gabriel Caldwell                                                           //
+// Course Section: CMIS201-ONL1 (Seidel) Fall 2022                                    //
+// File: Main.java                                                                    //
+// Description: Class containing main method for running the program                  //
+// ********************************************************************************** //
 
 public class Main extends Application {
     @Override

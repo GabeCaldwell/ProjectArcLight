@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
 <AnchorPane prefHeight="632.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.caldwell.arclight.journal.JournalController">
    <children>
-      <Button fx:id="managerButton" layoutX="1004.0" layoutY="576.0" mnemonicParsing="false" onAction="#onManagerButton" text="Manager" />
-      <Button fx:id="menuButton" layoutX="921.0" layoutY="576.0" mnemonicParsing="false" onAction="#onMainMenuButton" prefHeight="25.0" prefWidth="64.0" text="Menu" />
+      <Button fx:id="managerButton" focusTraversable="false" layoutX="1004.0" layoutY="11.0" mnemonicParsing="false" onAction="#onManagerButton" text="Manager">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="menuButton" focusTraversable="false" layoutX="931.0" layoutY="11.0" mnemonicParsing="false" onAction="#onMainMenuButton" prefHeight="25.0" prefWidth="64.0" text="Menu">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Separator layoutX="863.0" layoutY="11.0" orientation="VERTICAL" prefHeight="611.0" prefWidth="0.0" />
-      <ComboBox fx:id="removeChoiceBox" layoutX="875.0" layoutY="14.0" prefHeight="25.0" prefWidth="239.0" />
-      <Button fx:id="removeButton" onAction="#onRemoveButton" layoutX="965.0" layoutY="50.0" mnemonicParsing="false" text="Remove" />
-      <Button fx:id="addButton" onAction="#onAddButton" layoutX="175.0" layoutY="166.0" mnemonicParsing="false" text="Add" />
-      <TextField fx:id="nameField" layoutX="47.0" layoutY="50.0" prefHeight="25.0" prefWidth="293.0" promptText="Name" />
-      <TextField fx:id="colorField" layoutX="47.0" layoutY="88.0" prefHeight="25.0" prefWidth="293.0" promptText="Color" />
-      <TextField fx:id="distanceField" layoutX="47.0" layoutY="126.0" prefHeight="25.0" prefWidth="293.0" promptText="Distance" />
+      <TextArea fx:id="pageText" focusTraversable="false" layoutX="12.0" layoutY="11.0" prefHeight="599.0" prefWidth="839.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextArea>
+      <Button fx:id="leftButton" focusTraversable="false" layoutX="970.0" layoutY="593.0" mnemonicParsing="false" onAction="#onLeftButton" text="&lt;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="rightButton" focusTraversable="false" layoutX="995.0" layoutY="593.0" mnemonicParsing="false" onAction="#onRightButton" text="&gt;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Separator focusTraversable="false" layoutX="899.0" layoutY="43.0" prefWidth="200.0" />
+      <Button fx:id="addButton" focusTraversable="false" layoutX="968.0" layoutY="123.0" mnemonicParsing="false" onAction="#onAddPage" prefHeight="25.0" prefWidth="59.0" text="Add">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="removeButton" focusTraversable="false" layoutX="968.0" layoutY="160.0" mnemonicParsing="false" onAction="#onRemovePage" text="Remove">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="saveButton" focusTraversable="false" layoutX="968.0" layoutY="196.0" mnemonicParsing="false" onAction="#onSaveButton" prefHeight="25.0" prefWidth="59.0" text="Save">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Text fx:id="pageNumId" layoutX="394.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="75.13671875" />
    </children>
 </AnchorPane>

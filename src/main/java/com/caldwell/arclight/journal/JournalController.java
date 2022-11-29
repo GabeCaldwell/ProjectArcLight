@@ -1,5 +1,4 @@
 package com.caldwell.arclight.journal;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +25,8 @@ import java.util.ResourceBundle;
 
 public class JournalController implements Initializable {
 
+    // fields
+    //=================================================================================================================
     private int pageNum = 0;
     private Stage stage;
     private Scene scene;
@@ -53,7 +53,12 @@ public class JournalController implements Initializable {
     private Text pageNumId;
 
     final File pageData = new File("pages.dat");
+    //=================================================================================================================
 
+
+
+    // methods
+    //*****************************************************************************************************************
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -145,5 +150,6 @@ public class JournalController implements Initializable {
     public void onUndoButton() {
         // undoes the deletion of a page
     }
+    //*****************************************************************************************************************
 
 }

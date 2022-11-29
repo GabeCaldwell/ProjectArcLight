@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 // ********************************************************************************** //
@@ -31,6 +32,8 @@ import java.util.ResourceBundle;
 
 public class ManagerController implements Initializable {
 
+    // fields
+    //==================================================================================================================
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -44,7 +47,6 @@ public class ManagerController implements Initializable {
     private TableColumn<Star, String> colorColumn;
     @FXML
     private TableColumn<Star, Double> distanceColumn;
-
 
     @FXML
     private Button menuButton;
@@ -70,9 +72,15 @@ public class ManagerController implements Initializable {
     @FXML
     private TextField distanceField;
     @FXML
+    private TextField searchField;
+    @FXML
     private Button confirmButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    public Button searchCancelButton;
+    @FXML
+    public Button searchButton;
 
     @FXML
     private Text sortByText;
@@ -82,9 +90,24 @@ public class ManagerController implements Initializable {
     private TextArea textArea;
 
     ObservableList<Star> starObservableList;
+    BinarySearchTree<Star> starTree;
+    HashTable<String, Star> starHashTable;
+    Comparator<Star> starNameComparator = new Comparator<Star>() {
+        @Override
+        public int compare(Star o1, Star o2) {
+            return o1.getName().compareToIgnoreCase(o2.getName());
+        }
+    };
 
     final File starData = new File("stars.dat");
+    final File treeData = new File("starTree.dat");
+    final File hashData = new File("starHash.dat");
+    //==================================================================================================================
 
+
+
+    // methods
+    //******************************************************************************************************************
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("initializing manager...");
@@ -102,10 +125,41 @@ public class ManagerController implements Initializable {
         else if (!starData.exists()) {
             manager.writeStars();
         }
+        if (treeData.exists()) {
+            manager.readTree();
+        }
+        else if (!treeData.exists()) {
+            manager.writeTree();
+        }
+        if (hashData.exists()) {
+            manager.readHash();
+        }
+        else if (!hashData.exists()) {
+            manager.writeHash();
+        }
 
         // add items to list
         starObservableList = FXCollections.observableArrayList(manager.getStars());
         starTable.setItems(starObservableList);
+
+        if (starData.exists()) {
+            // add items to bst
+            starTree = new BinarySearchTree<>(starNameComparator);
+            for (Star s : manager.getStars()) {
+                starTree.add(s);
+            }
+
+            // populate hashtable
+            starHashTable = new HashTable<>();
+            for (Star s : manager.getStars()) {
+                starHashTable.add(s.getName(), s);
+            }
+        }
+        else {
+            starTree = new BinarySearchTree<>(starNameComparator);
+            starHashTable = new HashTable<>();
+        }
+
     }
 
     // return to main menu
@@ -199,8 +253,12 @@ public class ManagerController implements Initializable {
     public void onDeleteButton() {
         if (starTable.getSelectionModel().getSelectedItem() != null) {
             System.out.println("deleting: " + starTable.getSelectionModel().getSelectedItem().getName());
+            starTree.delete(starTable.getSelectionModel().getSelectedItem());
+            starHashTable.remove(starTable.getSelectionModel().getSelectedItem().getName());
             manager.stars.remove(starTable.getSelectionModel().getSelectedItem());
             manager.writeStars();
+            manager.writeHash();
+            manager.writeTree();
             manager.starStack.push(starTable.getSelectionModel().getSelectedItem());
             starObservableList.remove(starTable.getSelectionModel().getSelectedItem());
             starTable.setItems(starObservableList);
@@ -271,6 +329,8 @@ public class ManagerController implements Initializable {
                 starTable.setItems(starObservableList);
                 manager.stars.add(temp);
                 manager.writeStars();
+                manager.writeHash();
+                manager.writeTree();
                 onCancelButton();
             }
         }
@@ -308,4 +368,27 @@ public class ManagerController implements Initializable {
         cancelButton.setDisable(true);
         cancelButton.setOpacity(0);
     }
+
+    public void onSearchButton() {
+        if (searchField.getText() != null) {
+            if (starHashTable.containsKey(searchField.getText())) {
+                ObservableList<Star> temp = starObservableList;
+                temp.clear();
+                temp.add(starTree.returnSearch(starHashTable.get(searchField.getText())));
+                starTable.setItems(temp);
+                System.out.println("item found");
+            }
+        }
+        else {
+            System.out.println("item not found");
+        }
+    }
+
+    public void onSearchCancelButton() {
+        starObservableList.clear();
+        starObservableList.addAll(manager.getStars());
+        starTable.setItems(starObservableList);
+    }
+    //******************************************************************************************************************
+
 }

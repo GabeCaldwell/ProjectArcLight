@@ -16,32 +16,71 @@ import java.util.Stack;
 public class Manager implements Serializable {
 
     // fields
+    //==================================================================================================================
     ArrayList<Star> stars;
     Stack<Star> starStack;
+    BinarySearchTree<Star> starTree;
+    HashTable<Integer, Star> starHashTable;
+    //==================================================================================================================
+
+
 
     // constructors
+    //******************************************************************************************************************
     public Manager() {
         this.stars = new ArrayList<>();
         this.starStack = new Stack<>();
+        this.starTree = new BinarySearchTree<>();
+        this.starHashTable = new HashTable<>();
     }
 
     public Manager(ArrayList<Star> stars) {
         this.stars = stars;
     }
+    //******************************************************************************************************************
 
+
+
+    // getters & setters
     //=================================================================================================================
-
     public ArrayList<Star> getStars() {
         return this.stars;
+    }
+
+    public Stack<Star> getStarStack() {
+        return starStack;
+    }
+
+    public BinarySearchTree<Star> getStarTree() {
+        return this.starTree;
+    }
+
+    public HashTable<Integer, Star> getStarHashTable() {
+        return this.starHashTable;
     }
 
     public void setStars(ArrayList<Star> stars) {
         this.stars = stars;
     }
 
+    public void setStarStack(Stack<Star> starStack) {
+        this.starStack = starStack;
+    }
+
+    public void setStarTree(BinarySearchTree<Star> starTree) {
+        this.starTree = starTree;
+    }
+
+    public void setStarHashTable(HashTable<Integer, Star> starHashTable) {
+        this.starHashTable = starHashTable;
+    }
     //=================================================================================================================
 
-    // output array to file
+
+
+    // serialization methods
+    //******************************************************************************************************************
+    // write array to file
     public void writeStars() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stars.dat"))) {
             oos.writeObject(this.stars);
@@ -63,12 +102,51 @@ public class Manager implements Serializable {
         }
     }
 
+    public void writeTree() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("starTree.dat"))) {
+            oos.writeObject(this.starTree);
+            System.out.println("save success");
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void readTree() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("starTree.dat"))) {
+            this.starTree = (BinarySearchTree<Star>) ois.readObject();
+            System.out.println("read success");
+        }
+        catch (ClassNotFoundException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void writeHash() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("starHash.dat"))) {
+            oos.writeObject(this.starHashTable);
+            System.out.println("save success");
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void readHash() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("starHash.dat"))) {
+            this.starHashTable = (HashTable<Integer, Star>) ois.readObject();
+            System.out.println("read success");
+        }
+        catch (ClassNotFoundException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    //******************************************************************************************************************
 
 
+
+    // sorting by distance
     //=================================================================================================================
-
-
-
     // quicksort function for sorting stars by distance,
     // typical quicksort algorithm meaning it operates at O(Nlog(N)) complexity
     public void quickSort(ArrayList<Star> array) {
@@ -135,13 +213,12 @@ public class Manager implements Serializable {
         array.set(leftPointer, array.get(rightPointer));
         array.set(rightPointer, temp);
     }
-
-
-
     //=================================================================================================================
 
 
 
+    // sorting by name
+    //******************************************************************************************************************
     // quicksort function for sorting stars by name,
     // typical quicksort algorithm meaning it operates at O(Nlog(N)) complexity
     public void quickSortString(ArrayList<Star> array) {
@@ -208,15 +285,12 @@ public class Manager implements Serializable {
         array.set(leftPointer, array.get(rightPointer));
         array.set(rightPointer, temp);
     }
+    //******************************************************************************************************************
 
 
 
-
+    // sorting by color
     //=================================================================================================================
-
-
-
-
     // quicksort function for sorting stars by name,
     // typical quicksort algorithm meaning it operates at O(Nlog(N)) complexity
     public void quickSortColor(ArrayList<Star> array) {
@@ -283,5 +357,6 @@ public class Manager implements Serializable {
         array.set(leftPointer, array.get(rightPointer));
         array.set(rightPointer, temp);
     }
+    //=================================================================================================================
 
 }

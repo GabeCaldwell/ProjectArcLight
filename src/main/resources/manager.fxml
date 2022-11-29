@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="632.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.caldwell.arclight.manager.ManagerController">
    <children>
-      <TableView fx:id="starTable" focusTraversable="false" prefHeight="632.0" prefWidth="720.0">
+      <TableView fx:id="starTable" focusTraversable="false" layoutY="36.0" prefHeight="596.0" prefWidth="720.0">
         <columns>
            <TableColumn fx:id="nameColumn" editable="false" minWidth="0.0" prefWidth="240.0" resizable="false" sortable="false" text="Name" />
            <TableColumn fx:id="colorColumn" editable="false" minWidth="0.0" prefWidth="240.0" resizable="false" sortable="false" text="Color" />
@@ -81,5 +81,20 @@
          </cursor>
       </Button>
       <Button fx:id="cancelButton" disable="true" focusTraversable="false" layoutX="934.0" layoutY="208.0" mnemonicParsing="false" onAction="#onCancelButton" opacity="0.0" prefHeight="25.0" prefWidth="64.0" text="Cancel" />
+      <TextField fx:id="searchField" focusTraversable="false" layoutX="6.0" layoutY="5.0" prefHeight="25.0" prefWidth="567.0" promptText="enter a star name">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Button fx:id="searchCancelButton" onAction="#onSearchCancelButton" focusTraversable="false" layoutX="656.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="searchButton" onAction="#onSearchButton" focusTraversable="false" layoutX="583.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Search">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

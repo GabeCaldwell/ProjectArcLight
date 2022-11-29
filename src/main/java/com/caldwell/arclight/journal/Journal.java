@@ -1,5 +1,4 @@
 package com.caldwell.arclight.journal;
-
 import java.io.*;
 
 // ********************************************************************************** //
@@ -13,13 +12,23 @@ import java.io.*;
 public class Journal implements Serializable {
 
     // fields
+    //=================================================================================================================
     private JournalLinkedList<Page> pages;
+    //=================================================================================================================
+
+
 
     // constructors
+    //*****************************************************************************************************************
     public Journal() {
         this.pages = new JournalLinkedList<>();
     }
+    //*****************************************************************************************************************
 
+
+
+    // getters & setters
+    //=================================================================================================================
     public JournalLinkedList<Page> getPages() {
         return this.pages;
     }
@@ -27,7 +36,12 @@ public class Journal implements Serializable {
     public void setPages(JournalLinkedList<Page> pages) {
         this.pages = pages;
     }
+    //=================================================================================================================
 
+
+
+    // serialization methods
+    //*****************************************************************************************************************
     // output array to file
     public void writeJournal() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pages.dat"))) {
@@ -49,7 +63,12 @@ public class Journal implements Serializable {
             System.out.println(e.getMessage());
         }
     }
+    //*****************************************************************************************************************
 
+
+
+    // page class
+    //=================================================================================================================
     public static class Page implements Serializable {
         String text;
         public Page() {
@@ -65,5 +84,6 @@ public class Journal implements Serializable {
             this.text = text;
         }
     }
+    //=================================================================================================================
 
 }

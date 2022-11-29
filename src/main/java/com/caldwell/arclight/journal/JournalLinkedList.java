@@ -21,8 +21,6 @@ public class JournalLinkedList<E> implements Serializable {
 
 
 
-
-
     // constructors
     //*****************************************************************************************************************
     public JournalLinkedList() {
@@ -37,8 +35,6 @@ public class JournalLinkedList<E> implements Serializable {
         addAll(elements);
     }
     //*****************************************************************************************************************
-
-
 
 
 
@@ -66,8 +62,6 @@ public class JournalLinkedList<E> implements Serializable {
         return this.size;
     }
     //=================================================================================================================
-
-
 
 
 
@@ -131,8 +125,6 @@ public class JournalLinkedList<E> implements Serializable {
         }
     }
     //*****************************************************************************************************************
-
-
 
 
 
@@ -226,8 +218,6 @@ public class JournalLinkedList<E> implements Serializable {
 
 
 
-
-
     // retrieval and logic methods
     //*****************************************************************************************************************
     // checks if the list is empty
@@ -264,8 +254,6 @@ public class JournalLinkedList<E> implements Serializable {
 
 
 
-
-
     // toString
     //=================================================================================================================
     // returns the list as a string
@@ -283,8 +271,6 @@ public class JournalLinkedList<E> implements Serializable {
 
 
 
-
-
     // inner node class
     // *****************************************************************************************************************
     private static class Node<E> implements Serializable {
@@ -296,4 +282,5 @@ public class JournalLinkedList<E> implements Serializable {
         }
     }
     // *****************************************************************************************************************
+
 }

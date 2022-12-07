@@ -105,7 +105,7 @@ public class JournalLinkedList<E> implements Serializable {
             head = tail = temp;
         }
         else {
-            temp.next = tail;
+            tail.next = temp;
             tail = temp;
         }
         size++;
@@ -244,11 +244,17 @@ public class JournalLinkedList<E> implements Serializable {
 
     // retrieves an element at a specified index
     public E get(int index) {
-        Node<E> temp = head;
-        for (int i = 0; i < index; i++) {
-            temp = temp.next;
+
+        if (index < 0 || index > size - 1){
+            return null;
         }
-        return temp.element;
+
+        Node<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.element;
     }
     //*****************************************************************************************************************
 

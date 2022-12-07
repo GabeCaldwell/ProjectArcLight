@@ -45,7 +45,7 @@ public class Journal implements Serializable {
     // output array to file
     public void writeJournal() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pages.dat"))) {
-            oos.writeObject(this.pages);
+            oos.writeObject(getPages());
             System.out.println("save success");
         }
         catch (IOException e) {
@@ -56,6 +56,7 @@ public class Journal implements Serializable {
     // retrieve array from file
     public void readJournal() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pages.dat"))) {
+            this.pages.removeAll();
             this.pages = (JournalLinkedList<Page>) ois.readObject();
             System.out.println("read success");
         }

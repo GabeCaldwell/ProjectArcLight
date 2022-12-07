@@ -81,7 +81,16 @@ public class JournalController implements Initializable {
             journal.getPages().addFirst(new Journal.Page());
             journal.writeJournal();
         }
-        pageNumId.setText(String.valueOf(pageNum+1));
+
+        if (journal.getPages().getSize() == 1) {
+            pageNum = 0;
+            leftButton.setDisable(true);
+            rightButton.setDisable(true);
+        }
+        else if (journal.getPages().getSize() > 1) {
+            pageNum = 0;
+            leftButton.setDisable(true);
+        }
     }
 
     // return to main menu
@@ -107,39 +116,48 @@ public class JournalController implements Initializable {
     }
 
     public void onRightButton() {
-        if (pageNum < journal.getPages().getSize() && pageNum >= 0) {
+        // get page text from linked list
+
+        /*if (pageNum == 0) {
+            pageText.setText(journal.getPages().getHead().getText());
+        }*/
+
+        if (pageNum+1 < journal.getPages().getSize() && pageNum >= 0) {
             pageNum++;
-            if (journal.getPages().get(pageNum).getText() != null) {
-                pageText.setText(journal.getPages().get(pageNum).getText());
-                pageNumId.setText(String.valueOf(pageNum));
-            }
-            else if (journal.getPages().get(pageNum).getText() == null) {
-                journal.getPages().get(pageNum).setText("");
-            }
+            pageText.setText(journal.getPages().get(pageNum-1).getText());
         }
+
+        // checks to see if page num is in bounds
+        rightButton.setDisable(journal.getPages().getSize()+1 >= pageNum);
+        leftButton.setDisable(false);
+        System.out.println(pageNum);
     }
 
     public void onLeftButton() {
-        if (pageNum == 1) {
-            pageNum = 0;
-            pageText.setText(journal.getPages().getHead().getText());
-            pageNumId.setText(String.valueOf(pageNum+1));
-        }
-        else if (pageNum < journal.getPages().getSize() && pageNum > 1) {
+        if (pageNum > 0 && pageNum < journal.getPages().getSize()) {
             pageNum--;
-            pageText.setText(journal.getPages().get(pageNum).getText());
-            pageNumId.setText(String.valueOf(pageNum+1));
+            pageText.setText(journal.getPages().get(pageNum+1).getText());
         }
+
+        leftButton.setDisable(pageNum == 0);
+        rightButton.setDisable(false);
+        System.out.println(pageNum);
     }
 
     public void onAddPage() {
         journal.getPages().addLast(new Journal.Page(""));
         journal.writeJournal();
+        if (rightButton.isDisabled()) {
+            rightButton.setDisable(false);
+        }
     }
 
     public void onRemovePage() {
         journal.getPages().remove(pageNum);
         journal.writeJournal();
+        if (journal.getPages().getSize() == 1) {
+            removeButton.setDisable(true);
+        }
     }
 
     public void onSaveButton() {

@@ -18,6 +18,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -102,6 +106,7 @@ public class ManagerController implements Initializable {
     final File starData = new File("stars.dat");
     final File treeData = new File("starTree.dat");
     final File hashData = new File("starHash.dat");
+    final File dataBase = new File("starDatabase.db");
     //==================================================================================================================
 
 
@@ -158,6 +163,27 @@ public class ManagerController implements Initializable {
         else {
             starTree = new BinarySearchTree<>(starNameComparator);
             starHashTable = new HashTable<>();
+        }
+
+        // creates or connects to database
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:starDatabase.db");
+            System.out.println("now connected to database...");
+
+            Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS stars " +
+                                  "(name TEXT UNIQUE, color TEXT, distance DOUBLE)");
+
+            /*for (Star s : manager.getStars()) {
+                statement.execute("INSERT INTO stars (name, color, distance) " +
+                        "VALUES ('" + s.getName() + "', '" +
+                        s.getColor() + "', " + s.getDistance() + ")");
+            }*/
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
     }
@@ -259,6 +285,13 @@ public class ManagerController implements Initializable {
             manager.writeStars();
             manager.writeHash();
             manager.writeTree();
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:starDatabase.db");
+                Statement statement = connection.createStatement();
+                statement.execute("DELETE FROM stars WHERE name='" + starTable.getSelectionModel().getSelectedItem().getName() + "'");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
             manager.starStack.push(starTable.getSelectionModel().getSelectedItem());
             starObservableList.remove(starTable.getSelectionModel().getSelectedItem());
             starTable.setItems(starObservableList);
@@ -272,6 +305,15 @@ public class ManagerController implements Initializable {
             manager.stars.add(temp);
             manager.writeStars();
             starObservableList.add(temp);
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:starDatabase.db");
+                Statement statement = connection.createStatement();
+                statement.execute("INSERT INTO stars (name, color, distance) " +
+                                      "VALUES ('" + temp.getName() + "', '" + temp.getColor() + "', " + temp.getDistance() + ")");
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
             if (nameRadioButton.isSelected()) {
                 starTable.setItems(starObservableList);
                 onNameRadioButton();
@@ -324,14 +366,29 @@ public class ManagerController implements Initializable {
     public void onConfirmButton() {
         if (nameField.getText() != null && colorField.getText() != null && distanceField.getText() != null) {
             if (distanceField.getText().matches(".*[0-9].*")) {
-                Star temp = new Star(nameField.getText(), colorField.getText(), Integer.parseInt(distanceField.getText()));
-                starObservableList.add(temp);
-                starTable.setItems(starObservableList);
-                manager.stars.add(temp);
-                manager.writeStars();
-                manager.writeHash();
-                manager.writeTree();
-                onCancelButton();
+                Star temp = new Star(nameField.getText(), colorField.getText(), Double.parseDouble(distanceField.getText()));
+                if (!starTree.search(temp)) {
+                    starObservableList.add(temp);
+                    starTable.setItems(starObservableList);
+                    starTree.add(temp);
+                    starHashTable.add(temp.getName(), temp);
+                    manager.stars.add(temp);
+                    manager.writeStars();
+                    manager.writeHash();
+                    manager.writeTree();
+                    try {
+                        Connection connection = DriverManager.getConnection("jdbc:sqlite:starDatabase.db");
+                        Statement statement = connection.createStatement();
+                        statement.execute("INSERT INTO stars (name, color, distance) " +
+                                "VALUES ('" + nameField.getText() + "', '" +
+                                colorField.getText() + "', '" +
+                                Double.parseDouble(distanceField.getText()) + "')");
+                    }
+                    catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    onCancelButton();
+                }
             }
         }
     }
@@ -387,6 +444,7 @@ public class ManagerController implements Initializable {
     public void onSearchCancelButton() {
         starObservableList.clear();
         starObservableList.addAll(manager.getStars());
+        searchField.setText("");
         starTable.setItems(starObservableList);
     }
     //******************************************************************************************************************
